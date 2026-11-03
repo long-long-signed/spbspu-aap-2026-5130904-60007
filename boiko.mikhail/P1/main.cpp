@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <climits> // Для LLONG_MIN
 
 unsigned maxNumberCounter();
 int main()
@@ -12,15 +13,12 @@ int main()
     return 1;
   } catch (const std::length_error &e) {
     std::cerr << e.what() << "\n";
-    std::clog << "можно было написать класс от std::logic_error и типы ошибок "
-                 "на основе содержания, но это бы избыточно для таких масштабов"
-              << "\n";
     return 2;
   }
 }
 unsigned maxNumberCounter()
 {
-  long long max{0LL};
+  long long max{LLONG_MIN};
   long long input{0LL};
   unsigned counter{0U};
 
