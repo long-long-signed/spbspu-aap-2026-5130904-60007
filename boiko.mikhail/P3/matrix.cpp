@@ -14,8 +14,8 @@ namespace boikomikhail {
   }
 
   TmpList::TmpList(Matrix &mtr):
-    str_{nullptr},
     scounter_{0},
+    str_{nullptr},
     matrix_(mtr) {};
   void TmpList::setScr(int &i)
   {
