@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include <climits> // Для LLONG_MIN
+#include <climits>
 
 unsigned maxNumberCounter();
 int main()
@@ -18,9 +18,9 @@ int main()
 }
 unsigned maxNumberCounter()
 {
-  long long max{LLONG_MIN};
-  long long input{0LL};
-  unsigned counter{0U};
+  auto max{LLONG_MIN};
+  auto input{0LL};
+  auto counter{0U};
 
   while ((std::cin >> input) && (input != 0)) {
     if (input < max) {
