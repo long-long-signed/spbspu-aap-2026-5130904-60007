@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 
 #include <string>
+#include <iostream>
 
 namespace boikomikhail {
   extern const unsigned char dynamic_idr;
@@ -23,14 +24,19 @@ namespace boikomikhail {
   };
   void TmpList::writeM(unsigned &i, unsigned &j, int &strl)
   {
-    matrix_.mt_pointer_[i][j] = strl;
+    if(matrix_.is_dynamic_) {
+        matrix_.mt_pointer_[i][j] = strl;
+    } else {
+        matrix_.mt_pointer_[matrix_.column_number_*i + j] = &strl;
+    }
   }
   void TmpList::setStr(std::string *st)
   {
     str_ = st;
   };
 
-  Matrix::Matrix(const int &arrt)
+  Matrix::Matrix(const int &arrt): 
+      column_number_{0}, row_number_{0}
   {
     if (arrt < 1 || arrt > 2) {
       throw BadMatrix("Bad args");
@@ -39,9 +45,11 @@ namespace boikomikhail {
   }
   Matrix::~Matrix()
   {
-    if (is_dynamic_) {
+    if (is_dynamic_ && mt_pointer_ != nullptr) {
       for (unsigned i{0}; i < row_number_; ++i) {
-        delete[] mt_pointer_[i];
+          if(mt_pointer_[i] != nullptr) {
+              delete[] mt_pointer_[i];
+        }
       }
       delete[] mt_pointer_;
     }
@@ -52,14 +60,20 @@ namespace boikomikhail {
     if (is_dynamic_) {
       mt_pointer_ = new int *[row_number_];
       for (unsigned i{0}; i < row_number_; ++i) {
+        mt_pointer_[i] = nullptr;
+      }
+      for (unsigned i{0}; i < row_number_; ++i) {
         mt_pointer_[i] = new int[column_number_]{0};
       }
     } else if (!is_dynamic_ && getComps() < smax_element) {
-      int i2[column_number_][row_number_];
-      int *i2_tmp = reinterpret_cast< int * >(i2);
-      mt_pointer_ = &i2_tmp;
+        int *i2[row_number_];
+        for(unsigned i{0}; i < row_number_; ++i) {
+            // i2[i] = int *i2tmp[column_number_];
+        }
+        int *i2_tmp = reinterpret_cast< int * >(i2);
+        mt_pointer_ = &i2_tmp;
     } else {
-      throw BadMatrix("Failed to save matrix, input data cannot be save to Matrix");
+      throw BadMatrix("Failed to save matrix, input data cannot be saved to a Matrix");
     };
   }
   void Matrix::setRowNumber(const unsigned &rn)

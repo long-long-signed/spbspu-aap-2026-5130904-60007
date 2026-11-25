@@ -20,11 +20,10 @@ namespace boikomikhail {
     friend class TmpList;
 
   private:
-    unsigned mszie_;
     bool is_dynamic_;
     unsigned row_number_;
     unsigned column_number_;
-    int **mt_pointer_;
+    int **mt_pointer_ {nullptr};
 
   public:
     Matrix(const int &arrt);
@@ -43,7 +42,7 @@ namespace boikomikhail {
 
   private:
     unsigned scounter_;
-    const std::string *str_;
+    std::string *str_;
     Matrix &matrix_;
 
   public:
